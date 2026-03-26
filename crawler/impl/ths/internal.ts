@@ -13,8 +13,8 @@ export const thsRequestInit: RequestInit = {
 
 /** 转换代码为获取K线数据url的一个子路径。应仅在 tsh 目录内使用。 */
 export function code2LineUrlPath(code: string): string {
-  // 以数字开头的是股票，其余视作期货
-  return isNaN(Number(code.charAt(0))) ? "qh" : "hs"
+  // 以数字开头的是股票或板块(88开头)，其余视作期货
+  return isNaN(Number(code.charAt(0))) ? "qh" : (code.startsWith("88") ? "bk" : "hs")
 }
 
 /** 转换周期类型为获取K线数据url的一个子路径。应仅在 tsh 目录内使用。 */

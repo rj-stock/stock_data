@@ -36,6 +36,11 @@ Deno.test("600000 last 360 k of 60 minutes", async () => {
   await crawl2File("600000", KPeriod.Minute60, false)
 })
 
+// 板块
+Deno.test("881153 last 360 k of day", async () => {
+  await crawl2File("881153", KPeriod.Day, false)
+})
+
 // 期货：玻璃主连
 Deno.test("FG9999 last 360 year k", async () => {
   await crawl2File("FG9999", KPeriod.Year, false)
