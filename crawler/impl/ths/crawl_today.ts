@@ -16,6 +16,7 @@ import { formatDateTime, parseJsonp } from "../../../deps.ts"
 import { LatestKCrawler } from "../../crawler.ts"
 import { KPeriod, LatestKData } from "../../../types.ts"
 import { code2LineUrlPath, isMinutePeriod, period2LineUrlPath, thsRequestInit, ts2IsoStandard } from "./internal.ts"
+import { writeTextFile } from "../_internal.ts"
 
 export type LatestKResponsJson = {
   // 个股名称，如浦发银行 "\u6d66\u53d1\u94f6\u884c"
@@ -53,7 +54,7 @@ const crawl: LatestKCrawler = async (code: string, period = KPeriod.Day, debug =
    * })
    */
   const txt = await response.text()
-  if (debug) Deno.writeTextFile(`temp/10jqka-v6-line-today-${code}-${period}.js`, txt)
+  if (debug) await writeTextFile(`temp/10jqka-v6-line-today-${code}-${period}.js`, txt)
 
   const j = (parseJsonp(txt) as Record<string, unknown>)[`${type}_${code}`] as LatestKResponsJson
   const yyp2 = new Date().getFullYear().toString().substring(0, 2)

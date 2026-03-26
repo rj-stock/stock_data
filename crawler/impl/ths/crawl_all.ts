@@ -34,6 +34,7 @@ import { formatDateTime, parseJsonp } from "../../../deps.ts"
 import { KCrawler } from "../../crawler.ts"
 import { KData, KPeriod, StockKData } from "../../../types.ts"
 import { code2LineUrlPath, period2LineUrlPath, thsRequestInit, ts2IsoStandard } from "./internal.ts"
+import { writeTextFile } from "../_internal.ts"
 
 type ResponsJson = {
   // 个股名称，如浦发银行 "\u6d66\u53d1\u94f6\u884c"
@@ -86,7 +87,7 @@ const crawl: KCrawler = async (code: string, period = KPeriod.Day, debug = false
    * })
    */
   const txt = await response.text()
-  if (debug) Deno.writeTextFile(`temp/10jqka-v6-line-all-${code}-${period}.js`, txt)
+  if (debug) await writeTextFile(`temp/10jqka-v6-line-all-${code}-${period}.js`, txt)
 
   const j = parseJsonp(txt) as ResponsJson
   const dates = j.dates.split(",")

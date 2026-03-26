@@ -11,6 +11,7 @@ import {
   period2LineUrlPath,
   thsRequestInit,
 } from "./internal.ts"
+import { writeTextFile } from "../_internal.ts"
 
 /** 同花顺股票数据器爬取实现 */
 const crawl: KCrawler = async (code: string, period = KPeriod.Day, debug = false): Promise<StockKData> => {
@@ -30,7 +31,7 @@ const crawl: KCrawler = async (code: string, period = KPeriod.Day, debug = false
    * })
    */
   const txt = await response.text()
-  if (debug) Deno.writeTextFile(`temp/10jqka-v6-line-last3600-${code}-${period}.js`, txt)
+  if (debug) await writeTextFile(`temp/10jqka-v6-line-last3600-${code}-${period}.js`, txt)
 
   const j = parseJsonp(txt) as LastXResponsJson
   return parseLastXJson2StockData(code, j, period)

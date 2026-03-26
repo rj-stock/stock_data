@@ -1,7 +1,8 @@
-import { blue, formatDateTime, gray, green, parseArgs, pathExistsSync, red, TerminalProgress } from "../../../deps.ts"
+import { formatDateTime, gray, green, parseArgs, pathExistsSync, red, TerminalProgress } from "../../../deps.ts"
 import { KPeriod, LatestKData } from "../../../types.ts"
 import { default as crawlTodayLatestK } from "./crawl_today.ts"
 import { default as crawlLast360K } from "./crawl_last360.ts"
+import { writeTextFile } from "../_internal.ts"
 
 // 创建临时文件夹
 if (!pathExistsSync("temp")) Deno.mkdir("temp")
@@ -54,7 +55,7 @@ async function crawl2File(code: string, period: KPeriod, debug = false): Promise
   const data = await crawlTodayLatestK(code, period, debug)
   const j = JSON.stringify(data)
   // console.log(`${ts} ${j}`)
-  await Deno.writeTextFile(`temp/today-${code}-${period}.json`, `${ts} ${j}\r\n`, { append: true })
+  await writeTextFile(`temp/today-${code}-${period}.json`, `${ts} ${j}\r\n`, { append: true })
   return data
 }
 

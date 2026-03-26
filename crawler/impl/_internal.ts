@@ -1,5 +1,7 @@
 // 仅在本目录内使用的内部函数
 
+import { dirname, pathExists, pathExistsSync } from "../../deps.ts"
+
 /**
  * 转换整数格式日期值为标准 ISO 格式。
  *
@@ -27,4 +29,20 @@ export function tsNumber2IsoStandard(ts: string | number): string {
   } else if (len === 6) { // yyyyMM
     return `${t.substring(0, 4)}-${t.substring(4)}`
   } else return t
+}
+
+/** Save text to a file with auto gen file dir */
+export const writeTextFileSync = (toFile: string, text: string, {append = false}: {append?: boolean} = {}): string => {
+  const dir = dirname(toFile)
+  if (!pathExistsSync(dir)) Deno.mkdirSync(dir, { recursive: true })
+  Deno.writeTextFileSync(toFile, text, { append })
+  return toFile
+}
+
+/** Save text to a file with auto gen file dir */
+export const writeTextFile = async (toFile: string, text: string, {append = false}: {append?: boolean} = {}): Promise<string> => {
+  const dir = dirname(toFile)
+  if (!(await pathExists(dir))) await Deno.mkdir(dir, { recursive: true })
+  await Deno.writeTextFile(toFile, text, { append })
+  return toFile
 }

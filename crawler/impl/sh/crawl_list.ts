@@ -20,6 +20,7 @@
  */
 import { ListCrawler } from "../../crawler.ts"
 import { StockBase } from "../../../types.ts"
+import { writeTextFile } from "../_internal.ts"
 
 type Item = {
   // 标的代码
@@ -40,7 +41,7 @@ const crawl: ListCrawler = async (debug = false): Promise<StockBase[]> => {
   if (!response.ok) throw new Error(`从上交所获取全部股票清单失败：${response.status} ${response.statusText}`)
 
   const t = await response.text()
-  if (debug) Deno.writeTextFile("temp/sh-list-res.js", t)
+  if (debug) await writeTextFile("temp/sh-list-res.js", t)
   if (!t.includes("function get_data(){")) throw new Error("从上交所获取全部股票清单失败：返回结果无 get_data 函数")
 
   // 解析数据

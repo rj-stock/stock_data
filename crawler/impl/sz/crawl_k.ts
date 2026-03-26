@@ -12,6 +12,7 @@ import { CrawlInit, KCrawler } from "../../crawler.ts"
 import { KData, KPeriod, StockKData } from "../../../types.ts"
 import { userAgent } from "../../../browser.ts"
 import { period2QueryParamValue } from "./_internal.ts"
+import { writeTextFile } from "../_internal.ts"
 
 type ResponseJson = {
   code: string // 值为 "0" 代表成功
@@ -49,10 +50,10 @@ const crawl: KCrawler = async (
   })
   if (!response.ok) throw new Error(`从深交所获取 ${code} 数据失败：${response.status} ${response.statusText}`)
   const j = await response.json() as ResponseJson
-  if (init?.debug) Deno.writeTextFile(`temp/sz-${code}-${period}-res.json`, JSON.stringify(j))
+  if (init?.debug) await writeTextFile(`temp/sz-${code}-${period}-res.json`, JSON.stringify(j))
   // {"code":"-1","data":{"code":null,"name":null,"picupdata":null,"picdowndata":null},"message":"历史K线数据获取失败"}
   if (j.code !== "0") throw new Error(`从深交所获取 ${code} 数据失败：${j.message}`)
-  if (init?.debug) Deno.writeTextFile(`temp/sz-${code}-${period}-res.json`, JSON.stringify(j))
+  if (init?.debug) await writeTextFile(`temp/sz-${code}-${period}-res.json`, JSON.stringify(j))
 
   // 组合数据返回
   const stockData: StockKData = {

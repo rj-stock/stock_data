@@ -21,7 +21,7 @@ import { CrawlInit, KCrawler } from "../../crawler.ts"
 import { KData, KPeriod, StockKData } from "../../../types.ts"
 import { userAgent } from "../../../browser.ts"
 import { period2QueryParamValue, period2UrlPath } from "./_internal.ts"
-import { tsNumber2IsoStandard } from "../_internal.ts"
+import { tsNumber2IsoStandard, writeTextFile } from "../_internal.ts"
 
 type ResponseJson = {
   code: string // "600010"
@@ -60,7 +60,7 @@ const crawl: KCrawler = async (
   })
   if (!response.ok) throw new Error(`从上交所获取 ${code} 数据失败：${response.status} ${response.statusText}`)
   const j = await response.json() as ResponseJson
-  if (init?.debug) Deno.writeTextFile(`temp/sh-${code}-${period}-res.json`, JSON.stringify(j))
+  if (init?.debug) await writeTextFile(`temp/sh-${code}-${period}-res.json`, JSON.stringify(j))
   if (j.code !== code) {
     throw new Error(`检测到上交所返回错误的数据结构：${(j as unknown as { message: string }).message}`)
   }

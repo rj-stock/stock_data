@@ -16,6 +16,7 @@ import { formatDateTime, parseJsonp } from "../../../deps.ts"
 import { TimeCrawler } from "../../crawler.ts"
 import { KPeriod, StockTimeData } from "../../../types.ts"
 import { code2LineUrlPath, thsRequestInit, ts2IsoStandard } from "./internal.ts"
+import { writeTextFile } from "../_internal.ts"
 
 export type TimeResponsJson = {
   // 标的名称，如浦发银行 "\u6d66\u53d1\u94f6\u884c"
@@ -58,7 +59,7 @@ const crawl: TimeCrawler = async (code: string, debug = false): Promise<StockTim
    * })
    */
   const txt = await response.text()
-  if (debug) Deno.writeTextFile(`temp/10jqka-v6-time-last-${code}.js`, txt)
+  if (debug) await writeTextFile(`temp/10jqka-v6-time-last-${code}.js`, txt)
 
   const j = (parseJsonp(txt) as Record<string, unknown>)[`${type}_${code}`] as TimeResponsJson
   const kk = j.data.split(";")

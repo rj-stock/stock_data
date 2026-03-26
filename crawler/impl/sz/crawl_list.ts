@@ -46,6 +46,7 @@
 import { ListCrawler } from "../../crawler.ts"
 import { StockBase } from "../../../types.ts"
 import { delay, pathExistsSync } from "../../../deps.ts"
+import { writeTextFile } from "../_internal.ts"
 type Metadata = {
   // 每页容量
   pagesize: number
@@ -84,8 +85,7 @@ async function crawlOnePage(pageNo: number, debug = false): Promise<ResponseItem
 
   const j = await response.json() as Array<ResponseItem>
   if (debug) {
-    if (!pathExistsSync("temp/sz")) Deno.mkdirSync("temp/sz", { recursive: true })
-    Deno.writeTextFile(`temp/sz/sz-list-res-page${pageNo}.js`, JSON.stringify(j, null, 2))
+    await writeTextFile(`temp/sz/sz-list-res-page${pageNo}.js`, JSON.stringify(j, null, 2))
   }
   if (j.length !== 4 || j[3].error) throw new Error("从深交所获取 page ${pageNo} 股票清单失败：" + j[0]?.error)
   return j[0]
