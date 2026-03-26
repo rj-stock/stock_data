@@ -1,5 +1,10 @@
 # Today Stock Changelog
 
+## 0.10.0 2026-03-26
+
+- 增加同花顺板块代码支持
+- 修正 debug 状态缺少 temp 目录导致的保存失败问题
+
 ## 0.9.2 2023-08-06
 
 - Remove log url
