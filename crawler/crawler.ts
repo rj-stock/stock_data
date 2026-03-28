@@ -25,7 +25,7 @@ export type KCrawler = (code: string, period: KPeriod, init?: CrawlInit) => Prom
 export type TimeCrawler = (code: string, debug?: boolean) => Promise<StockTimeData>
 
 /** 爬取股票最后一个周期的 K 数据 */
-export type LatestKCrawler = (code: string, period?: KPeriod, debug?: boolean) => Promise<LatestKData>
+export type LatestKCrawler = (code: string, period?: KPeriod, init?: { debug?: boolean }) => Promise<LatestKData>
 
 /** 爬取所有股票列表 */
 export type ListCrawler = (debug?: boolean) => Promise<StockBase[]>

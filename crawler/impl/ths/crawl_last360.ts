@@ -2,7 +2,7 @@
  * 从移动端打开页面 https://m.10jqka.com.cn/stockpage/hs_600000 收集的数据请求地址。
  */
 import { parseJsonp } from "../../../deps.ts"
-import { KCrawler } from "../../crawler.ts"
+import { CrawlInit, KCrawler } from "../../crawler.ts"
 import { KPeriod, StockKData } from "../../../types.ts"
 import {
   code2LineUrlPath,
@@ -14,7 +14,7 @@ import {
 import { writeTextFile } from "../_internal.ts"
 
 /** 同花顺股票数据器爬取实现 */
-const crawl: KCrawler = async (code: string, period = KPeriod.Day, debug = false): Promise<StockKData> => {
+const crawl: KCrawler = async (code: string, period = KPeriod.Day, { debug }: CrawlInit = {}): Promise<StockKData> => {
   const type = code2LineUrlPath(code)
   const sp = period2LineUrlPath(period)
   const url = `http://d.10jqka.com.cn/v6/line/${type}_${code}/${sp}/last360.js?ts=${Date.now()}`

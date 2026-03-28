@@ -42,7 +42,7 @@ export type LatestKResponsJson = {
 }
 
 /** 同花顺股票数据器爬取实现 */
-const crawl: LatestKCrawler = async (code: string, period = KPeriod.Day, debug = false): Promise<LatestKData> => {
+const crawl: LatestKCrawler = async (code: string, period = KPeriod.Day, { debug = false }: { debug?: boolean } = {}): Promise<LatestKData> => {
   const type = code2LineUrlPath(code)
   const sp = period2LineUrlPath(period)
   const url = `http://d.10jqka.com.cn/v6/line/${type}_${code}/${sp}/today.js?ts=${Date.now()}`

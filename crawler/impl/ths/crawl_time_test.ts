@@ -3,7 +3,7 @@ import crawl from "./crawl_time.ts"
 
 async function crawl2File(code: string, debug = false): Promise<StockTimeData> {
   const stockData = await crawl(code, debug)
-  await Deno.writeTextFile(`temp/10jqka-v6-time-last-${code}.json`, JSON.stringify(stockData, null, 2))
+  if (debug) await Deno.writeTextFile(`temp/10jqka-v6-time-last-${code}.json`, JSON.stringify(stockData, null, 2))
   return stockData
 }
 

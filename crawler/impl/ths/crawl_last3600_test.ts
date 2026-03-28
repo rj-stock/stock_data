@@ -2,8 +2,8 @@ import { KPeriod, StockKData } from "../../../types.ts"
 import crawl from "./crawl_last3600.ts"
 
 async function crawl2File(code: string, period = KPeriod.Day, debug = false): Promise<StockKData> {
-  const stockData = await crawl(code, period, debug)
-  await Deno.writeTextFile(`temp/10jqka-v6-line-last3600-${code}-${period}.json`, JSON.stringify(stockData, null, 2))
+  const stockData = await crawl(code, period, { debug })
+  if (debug) await Deno.writeTextFile(`temp/10jqka-v6-line-last3600-${code}-${period}.json`, JSON.stringify(stockData, null, 2))
   return stockData
 }
 

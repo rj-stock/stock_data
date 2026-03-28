@@ -52,10 +52,10 @@ const progress = new TerminalProgress({
 
 async function crawl2File(code: string, period: KPeriod, debug = false): Promise<LatestKData> {
   const ts = formatDateTime(new Date(), "HH:mm:ss")
-  const data = await crawlTodayLatestK(code, period, debug)
+  const data = await crawlTodayLatestK(code, period, { debug })
   const j = JSON.stringify(data)
   // console.log(`${ts} ${j}`)
-  await writeTextFile(`temp/today-${code}-${period}.json`, `${ts} ${j}\r\n`, { append: true })
+  if (debug) await writeTextFile(`temp/today-${code}-${period}.json`, `${ts} ${j}\r\n`, { append: true })
   return data
 }
 
