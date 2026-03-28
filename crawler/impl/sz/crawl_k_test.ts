@@ -1,4 +1,4 @@
-import { assert, assertEquals, assertObjectMatch } from "../../../deps.ts"
+import { assert, assertEquals } from "../../../deps.ts"
 import { KPeriod, StockKData } from "../../../types.ts"
 import { CrawlInit } from "../../crawler.ts"
 import crawl from "./crawl_k.ts"

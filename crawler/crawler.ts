@@ -29,3 +29,21 @@ export type LatestKCrawler = (code: string, period?: KPeriod, init?: { debug?: b
 
 /** 爬取所有股票列表 */
 export type ListCrawler = (debug?: boolean) => Promise<StockBase[]>
+
+/**
+ * 将任意未知异常转换为标准 Error 对象
+ * @param err 未知类型的异常
+ * @returns 确保是 Error 类型
+ */
+export function toError(err: unknown): Error {
+  // 如果已经是 Error，直接返回
+  if (err instanceof Error) return err
+
+  // 如果不是 Error，包装成 Error
+  try {
+    return new Error(String(err));
+  } catch {
+    // 极端兜底：防止 String(err) 也报错
+    return new Error("未知异常");
+  }
+}

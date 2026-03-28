@@ -44,7 +44,7 @@
  */
 import { ListCrawler } from "../../crawler.ts"
 import { StockBase } from "../../../types.ts"
-import { delay, parseJsonp, pathExistsSync } from "../../../deps.ts"
+import { delay, parseJsonp } from "../../../deps.ts"
 import { writeTextFile } from "../_internal.ts"
 type ResponseItem = {
   // 每页容量

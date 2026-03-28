@@ -3,6 +3,7 @@ import { KPeriod, LatestKData } from "../../../types.ts"
 import { default as crawlTodayLatestK } from "./crawl_today.ts"
 import { default as crawlLast360K } from "./crawl_last360.ts"
 import { writeTextFile } from "../_internal.ts"
+import { toError } from "../../crawler.ts"
 
 // 创建临时文件夹
 if (!pathExistsSync("temp")) Deno.mkdir("temp")
@@ -81,7 +82,7 @@ async function repeat(code: string, seconds: number, period: KPeriod): Promise<v
         progress.to()
       } catch (error) {
         progress.end()
-        console.error(red(error.message))
+        console.error(red(toError(error).message))
       }
     }, seconds * 1000)
   })

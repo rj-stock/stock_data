@@ -45,7 +45,7 @@
  */
 import { ListCrawler } from "../../crawler.ts"
 import { StockBase } from "../../../types.ts"
-import { delay, pathExistsSync } from "../../../deps.ts"
+import { delay } from "../../../deps.ts"
 import { writeTextFile } from "../_internal.ts"
 type Metadata = {
   // 每页容量

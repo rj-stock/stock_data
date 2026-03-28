@@ -2,7 +2,7 @@ import { crawlK as crawlShK, crawlList as crawlShList } from "./impl/sh/mod.ts"
 import { crawlK as crawlSzK, crawlList as crawlSzList } from "./impl/sz/mod.ts"
 import { crawlK as crawlBjK, crawlList as crawlBjList } from "./impl/bj/mod.ts"
 import { KPeriod, StockBase, StockKData } from "../types.ts"
-import { KCrawler } from "./crawler.ts"
+import { KCrawler, toError } from "./crawler.ts"
 import { CrawlInit } from "./crawler.ts"
 
 /**
@@ -23,7 +23,7 @@ export async function crawlAllStock(): Promise<Record<string, string>> {
   try {
     sub = await crawlShList()
   } catch (e) {
-    console.error("上交所: " + e.message)
+    console.error("上交所: " + toError(e).message)
     failedSh = true
   }
   if (sub.length) for (const { code, name } of sub) map[code] = name
@@ -33,7 +33,7 @@ export async function crawlAllStock(): Promise<Record<string, string>> {
   try {
     sub = await crawlBjList()
   } catch (e) {
-    console.error("北交所: " + e.message)
+    console.error("北交所: " + toError(e).message)
     failedBj = true
   }
   if (sub.length) for (const { code, name } of sub) map[code] = name
@@ -43,7 +43,7 @@ export async function crawlAllStock(): Promise<Record<string, string>> {
   try {
     sub = await crawlSzList()
   } catch (e) {
-    console.error("深交所: " + e.message)
+    console.error("深交所: " + toError(e).message)
     failedSz = true
   }
   if (sub.length) for (const { code, name } of sub) map[code] = name
@@ -54,7 +54,7 @@ export async function crawlAllStock(): Promise<Record<string, string>> {
     try {
       sub = await crawlSzList()
     } catch (e) {
-      console.error("小熊: " + e.message)
+      console.error("小熊: " + toError(e).message)
     }
   }
   if (sub.length) for (const { code, name } of sub) map[code] = name
